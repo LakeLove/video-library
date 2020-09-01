@@ -24,12 +24,12 @@ public class CommentController {
   @PostMapping (value = "/{video_id}")
   @ResponseBody
   public Comment postVideoComment(@PathVariable ("video_id") Long video_id, @RequestBody Comment comment) {
-    return commentService.save(comment);
+    return commentService.save(video_id, comment);
   }
   
-  @DeleteMapping (value = "/{comment_id}")
+  @DeleteMapping (value = "/{video_id}/{comment_id}")
   @ResponseBody
-  public void deleteVideoComment(@PathVariable ("comment_id") Long comment_id) {
-    commentService.delete(comment_id);
+  public void deleteVideoComment(@PathVariable ("video_id") Long video_id, @PathVariable ("comment_id") Long comment_id) {
+    commentService.delete(video_id, comment_id);
   }
 }

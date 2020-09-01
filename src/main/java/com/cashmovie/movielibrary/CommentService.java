@@ -13,7 +13,7 @@ public class CommentService {
   public List<Comment> findByVideoId(Long video_id) {
     List<Comment> comments = new ArrayList<>();
     for (Comment comment : findAll()) {
-      if (comment.getVideo_id() == video_id) {
+      if (comment.getVideo_id().equals(video_id)) {
         comments.add(comment);
       }
     }
@@ -24,11 +24,17 @@ public class CommentService {
     return commentRepository.findAll();
   }
   
-  public Comment save(Comment comment) {
+  public Comment save(Long video_id, Comment comment) {
+    comment.setVideo_id(video_id);
     return commentRepository.save(comment);
   }
   
- public void delete(Long comment_id) {
-    commentRepository.delete(commentRepository.findById(comment_id));
+ public void delete(Long video_id, Long comment_id) {
+   for (Comment comment : findByVideoId(video_id)) {
+     if (comment.getComment_id().equals(comment_id)) {
+       commentRepository.delete(comment);
+       break;
+     }
+   }
  }
 }

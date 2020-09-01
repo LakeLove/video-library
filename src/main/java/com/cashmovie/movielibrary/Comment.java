@@ -1,17 +1,18 @@
 package com.cashmovie.movielibrary;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import java.sql.Timestamp;
+import org.hibernate.annotations.CreationTimestamp;
+
+import javax.persistence.*;
+import java.util.Date;
 @Entity
 public class Comment {
   @Id
   @GeneratedValue (strategy = GenerationType.AUTO)
   private Long comment_id;
   private String comment_text;
-  private Timestamp comment_timestamp;
+  @CreationTimestamp
+  @Temporal(TemporalType.TIMESTAMP)
+  private Date comment_timestamp;
   private Long video_id;
   
   public Comment() {}
@@ -32,11 +33,11 @@ public class Comment {
     this.comment_text = comment_text;
   }
   
-  public Timestamp getComment_timestamp() {
+  public Date getComment_timestamp() {
     return comment_timestamp;
   }
   
-  public void setComment_timestamp(Timestamp comment_timestamp) {
+  public void setComment_timestamp(Date comment_timestamp) {
     this.comment_timestamp = comment_timestamp;
   }
   
