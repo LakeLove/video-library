@@ -7,7 +7,8 @@ import java.sql.Timestamp;
 import java.time.LocalDate;
 
 @Entity
-public class Videos {
+@Table(name = "videos")
+public class Video {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -29,7 +30,7 @@ public class Videos {
     @Column(name = "description")
     String description;
 
-    public Videos(){
+    public Video(){
 
     }
 
