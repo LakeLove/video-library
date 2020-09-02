@@ -24,10 +24,19 @@ public class VideoService {
 
     public Video postNewVideo(Video v) {
         // Currently mapped to mp4
-        v.setDate(new Timestamp(System.currentTimeMillis()));
         this.videoRepository.save(v);
 
         v.setFilePath("/videos/" + v.getId() + ".mp4");
         return this.videoRepository.save(v);
+    }
+
+    public Video getVideoById(Long id) {
+        return this.videoRepository.findById(id).get();
+    }
+
+    public Video deleteVideoById(Long id) {
+        Video v = this.getVideoById(id);
+        this.videoRepository.delete(v);
+        return v;
     }
 }

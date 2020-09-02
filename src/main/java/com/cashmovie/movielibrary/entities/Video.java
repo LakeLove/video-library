@@ -1,10 +1,12 @@
 package com.cashmovie.movielibrary.entities;
 
 import com.sun.javafx.beans.IDProperty;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.util.Date;
 
 @Entity
 @Table(name = "videos")
@@ -25,13 +27,22 @@ public class Video {
     String author;
 
     @Column(name = "date_uploaded")
-    Timestamp date;
+    @CreationTimestamp
+    @Temporal(TemporalType.TIMESTAMP)
+    Date date;
 
     @Column(name = "description")
     String description;
 
     public Video(){
 
+    }
+
+    public Video(String title, String filePath, String author, String description){
+        this.title = title;
+        this.filePath = filePath;
+        this.author = author;
+        this.description = description;
     }
 
     public Long getId() {
@@ -62,11 +73,11 @@ public class Video {
         this.author = author;
     }
 
-    public Timestamp getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(Timestamp date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 
