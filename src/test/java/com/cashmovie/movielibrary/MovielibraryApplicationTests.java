@@ -8,6 +8,6 @@ class MovielibraryApplicationTests {
 
 	@Test
 	void contextLoads() {
+		MovielibraryApplication.main(new String[] {});
 	}
-
 }

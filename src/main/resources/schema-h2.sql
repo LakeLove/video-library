@@ -14,7 +14,7 @@ DROP TABLE comments;
 CREATE TABLE comments (
     comment_id BIGINT NOT NULL AUTO_INCREMENT,
     comment_text TEXT,
-    comment_timestamp TIMESTAMP NOT NULL,
+    comment_timestamp TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     video_id BIGINT NOT NULL,
     PRIMARY KEY (comment_id));
 
