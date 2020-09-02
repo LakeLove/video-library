@@ -4,6 +4,7 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Objects;
 @Entity
 public class Comment {
   @Id
@@ -16,6 +17,21 @@ public class Comment {
   private Long video_id;
   
   public Comment() {}
+  
+  public Comment(String comment) {
+    comment_text = comment;
+  }
+  
+  public Comment(Long videoID, String comment) {
+    video_id = videoID;
+    comment_text = comment;
+  }
+  
+  public Comment(Long videoID, Long ID, String comment) {
+    video_id = videoID;
+    comment_id = ID;
+    comment_text = comment;
+  }
   
   public Long getComment_id() {
     return comment_id;
@@ -47,5 +63,19 @@ public class Comment {
   
   public void setVideo_id(Long video_id) {
     this.video_id = video_id;
+  }
+  
+  @Override
+  public boolean equals(Object o) {
+    if(this == o) { return true; }
+    if(!(o instanceof Comment)) { return false; }
+    Comment comment = (Comment) o;
+    return Objects.equals(getComment_id(), comment.getComment_id()) && Objects.equals(getComment_text(),
+      comment.getComment_text()) && Objects.equals(getComment_timestamp(), comment.getComment_timestamp()) && Objects.equals(getVideo_id(), comment.getVideo_id());
+  }
+  
+  @Override
+  public int hashCode() {
+    return Objects.hash(getComment_id(), getComment_text(), getComment_timestamp(), getVideo_id());
   }
 }
