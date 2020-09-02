@@ -4,16 +4,20 @@ import com.cashmovie.movielibrary.entities.Video;
 import com.cashmovie.movielibrary.services.VideoService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -66,5 +70,20 @@ public class VideoServiceTest {
         this.mvc.perform(get("/videos/home"))
                 .andExpect(status().isOk())
                 .andExpect(content().string(expectedVideo));
+    }
+
+    @Test
+    public void postVideo() throws Exception {
+        Long givenVideoID = 1L;
+        Video testVideo = new Video("Video", "/videos/1.mp4", "Frank", "Test");
+        Mockito.when(testService.postNewVideo(Mockito.any(Video.class))).thenReturn(testVideo);
+        String expectedVideo = "{\"id\":null,\"title\":\"Video\",\"filePath\":\"/videos/1.mp4\"," +
+                "\"author\":\"Frank\",\"date\":null,\"description\":\"Test\"}";
+        this.mvc.perform(MockMvcRequestBuilders
+                .post("/videos/upload")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(expectedVideo))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("application/json")).andExpect(content().string(expectedVideo));
     }
 }
