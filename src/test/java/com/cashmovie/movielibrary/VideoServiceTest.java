@@ -12,6 +12,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -47,6 +48,22 @@ public class VideoServiceTest {
         String expectedVideo = "{\"id\":null,\"title\":\"Video\",\"filePath\":\"/videos/1.mp4\"," +
                 "\"author\":\"Frank\",\"date\":null,\"description\":\"Test\"}";
         this.mvc.perform(get("/videos/id="+ givenVideoID))
+                .andExpect(status().isOk())
+                .andExpect(content().string(expectedVideo));
+    }
+
+    @Test
+    public void getAll() throws Exception {
+        Video testVideo1 = new Video("Video1", "/videos/1.mp4", "Frank", "Test");
+        Video testVideo2 = new Video("Video2", "/videos/2.mp4", "Frank", "Test");
+        Long givenVideoID1 = 1L;
+        Long givenVideoID2 = 2L;
+        when(testService.getRecent()).thenReturn(new ArrayList<>(Arrays.asList(testVideo1, testVideo2)));
+        String expectedVideo = "[{\"id\":null,\"title\":\"Video1\",\"filePath\":\"/videos/1.mp4\"," +
+                "\"author\":\"Frank\",\"date\":null,\"description\":\"Test\"}," +
+                "{\"id\":null,\"title\":\"Video2\",\"filePath\":\"/videos/2.mp4\"," +
+                "\"author\":\"Frank\",\"date\":null,\"description\":\"Test\"}]";
+        this.mvc.perform(get("/videos/home"))
                 .andExpect(status().isOk())
                 .andExpect(content().string(expectedVideo));
     }
