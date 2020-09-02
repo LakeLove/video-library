@@ -1,5 +1,7 @@
-package com.cashmovie.movielibrary;
+package com.cashmovie.movielibrary.controllers;
 
+import com.cashmovie.movielibrary.services.CommentService;
+import com.cashmovie.movielibrary.entities.Comment;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

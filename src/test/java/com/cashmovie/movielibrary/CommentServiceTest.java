@@ -1,5 +1,7 @@
 package com.cashmovie.movielibrary;
 
+import com.cashmovie.movielibrary.entities.Comment;
+import com.cashmovie.movielibrary.services.CommentService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;

@@ -1,4 +1,4 @@
-package com.cashmovie.movielibrary;
+package com.cashmovie.movielibrary.entities;
 
 import org.hibernate.annotations.CreationTimestamp;
 
