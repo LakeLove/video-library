@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -85,5 +85,19 @@ public class VideoServiceTest {
                 .content(expectedVideo))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json")).andExpect(content().string(expectedVideo));
+    }
+
+    @Test
+    public void deleteVideoComment() throws Exception {
+        Long givenVideoID = 1L;
+        Video testVideo = new Video("Video", "/videos/1.mp4", "Frank", "Test");
+        testVideo.setId(givenVideoID);
+        String expectedVideo = "{\"id\":1,\"title\":\"Video\",\"filePath\":\"/videos/1.mp4\"," +
+                "\"author\":\"Frank\",\"date\":null,\"description\":\"Test\"}";
+        when(testService.postNewVideo(testVideo)).thenReturn(testVideo);
+        this.mvc.perform(MockMvcRequestBuilders
+                .delete("/videos/id=" + givenVideoID))
+                .andExpect(status().isOk());
+        verify(testService, times(1)).deleteVideoById(givenVideoID);
     }
 }
