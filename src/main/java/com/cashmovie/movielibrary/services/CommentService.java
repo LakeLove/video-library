@@ -39,4 +39,8 @@ public class CommentService {
      }
    }
  }
+  
+  public void deleteAllByVideoId(Long video_id) {
+    findByVideoId(video_id).forEach(comment -> commentRepository.delete(comment));
+  }
 }

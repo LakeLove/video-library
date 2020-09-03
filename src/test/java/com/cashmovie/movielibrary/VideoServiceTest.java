@@ -39,7 +39,7 @@ public class VideoServiceTest {
         Long givenVideoID = 1L;
         when(testService.getVideoById(givenVideoID)).thenReturn(null);
         String expectedVideo = "";
-        this.mvc.perform(get("/videos/id="+ givenVideoID))
+        this.mvc.perform(get("/api/videos/id="+ givenVideoID))
                 .andExpect(status().isOk())
                 .andExpect(content().string(expectedVideo));
     }
@@ -51,7 +51,7 @@ public class VideoServiceTest {
         when(testService.getVideoById(givenVideoID)).thenReturn(testVideo);
         String expectedVideo = "{\"id\":null,\"title\":\"Video\",\"filePath\":\"/videos/1.mp4\"," +
                 "\"author\":\"Frank\",\"date\":null,\"description\":\"Test\"}";
-        this.mvc.perform(get("/videos/id="+ givenVideoID))
+        this.mvc.perform(get("/api/videos/id="+ givenVideoID))
                 .andExpect(status().isOk())
                 .andExpect(content().string(expectedVideo));
     }
@@ -67,7 +67,7 @@ public class VideoServiceTest {
                 "\"author\":\"Frank\",\"date\":null,\"description\":\"Test\"}," +
                 "{\"id\":null,\"title\":\"Video2\",\"filePath\":\"/videos/2.mp4\"," +
                 "\"author\":\"Frank\",\"date\":null,\"description\":\"Test\"}]";
-        this.mvc.perform(get("/videos/home"))
+        this.mvc.perform(get("/api/videos/home"))
                 .andExpect(status().isOk())
                 .andExpect(content().string(expectedVideo));
     }
@@ -80,7 +80,7 @@ public class VideoServiceTest {
         String expectedVideo = "{\"id\":null,\"title\":\"Video\",\"filePath\":\"/videos/1.mp4\"," +
                 "\"author\":\"Frank\",\"date\":null,\"description\":\"Test\"}";
         this.mvc.perform(MockMvcRequestBuilders
-                .post("/videos/upload")
+                .post("/api/videos/upload")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(expectedVideo))
                 .andExpect(status().isOk())
@@ -96,7 +96,7 @@ public class VideoServiceTest {
                 "\"author\":\"Frank\",\"date\":null,\"description\":\"Test\"}";
         when(testService.postNewVideo(testVideo)).thenReturn(testVideo);
         this.mvc.perform(MockMvcRequestBuilders
-                .delete("/videos/id=" + givenVideoID))
+                .delete("/api/videos/id=" + givenVideoID))
                 .andExpect(status().isOk());
         verify(testService, times(1)).deleteVideoById(givenVideoID);
     }
