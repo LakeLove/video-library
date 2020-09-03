@@ -34,23 +34,23 @@ public class CommentServiceTest {
   private CommentService testService;
   
   @Test
-  public void getVideoComment_None() throws Exception {
+  public void getVideoComments_None() throws Exception {
     Long givenVideoID = 1L;
     when(testService.findByVideoId(givenVideoID)).thenReturn(new ArrayList<>());
     String expectedComments = "[]";
-    this.mvc.perform(get("/"+ givenVideoID))
+    this.mvc.perform(get("/api/comments/id="+ givenVideoID))
             .andExpect(status().isOk())
             .andExpect(content().string(expectedComments));
   }
   
   @Test
-  public void getVideoComment_One() throws Exception {
+  public void getVideoComments_One() throws Exception {
     Comment givenComment = new Comment(1L, "this is a test");
     Long givenVideoID = 1L;
     when(testService.findByVideoId(givenVideoID)).thenReturn(new ArrayList<>(Collections.singleton(givenComment)));
     String expectedComments = "[{\"comment_id\":null,\"comment_text\":\"this is a test\",\"comment_timestamp\":null," +
                                 "\"video_id\":1}]";
-    this.mvc.perform(get("/"+ givenVideoID))
+    this.mvc.perform(get("/api/comments/id="+ givenVideoID))
             .andExpect(status().isOk())
             .andExpect(content().string(expectedComments));
   }
@@ -63,7 +63,7 @@ public class CommentServiceTest {
     String expectedComments = "[{\"comment_id\":null,\"comment_text\":\"this is a test\",\"comment_timestamp\":null," +
                                 "\"video_id\":1},{\"comment_id\":null,\"comment_text\":\"this is still a test\"," +
                                 "\"comment_timestamp\":null,\"video_id\":2}]";
-    this.mvc.perform(get("/all"))
+    this.mvc.perform(get("/api/comments/all"))
                        .andExpect(status().isOk())
                        .andExpect(content().string(expectedComments));
   }
@@ -76,7 +76,7 @@ public class CommentServiceTest {
     String expectedComment = "{\"comment_id\":null,\"comment_text\":\"this is a test\",\"comment_timestamp\":null," +
                                 "\"video_id\":4}";
     this.mvc.perform(MockMvcRequestBuilders
-                       .post("/"+givenVideoID)
+                       .post("/api/comments/id="+givenVideoID)
                        .contentType(MediaType.APPLICATION_JSON)
                        .content("{\"comment_text\":\"this is a test\"}"))
             .andExpect(status().isOk())
@@ -91,8 +91,20 @@ public class CommentServiceTest {
     Comment givenComment = new Comment(givenVideoID, givenCommentID, "this is a test");
     when(testService.save(givenVideoID, givenComment)).thenReturn(givenComment);
     this.mvc.perform(MockMvcRequestBuilders
-                       .delete("/"+givenVideoID+"/"+givenCommentID))
+                       .delete("/api/comments/id="+givenVideoID+"/id="+givenCommentID))
             .andExpect(status().isOk());
     verify(testService, times(1)).delete(givenVideoID, givenCommentID);
+  }
+  
+  @Test
+  public void deleteAllVideoComment() throws Exception {
+    Long givenVideoID = 4L;
+    Long givenCommentID = 2L;
+    Comment givenComment = new Comment(givenVideoID, givenCommentID, "this is a test");
+    when(testService.save(givenVideoID, givenComment)).thenReturn(givenComment);
+    this.mvc.perform(MockMvcRequestBuilders
+                       .delete("/api/comments/id="+givenVideoID))
+            .andExpect(status().isOk());
+    verify(testService, times(1)).deleteAllByVideoId(givenVideoID);
   }
 }

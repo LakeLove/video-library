@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/videos")
+@RequestMapping("/api/videos")
 public class VideoController {
 
     public static final Logger LOGGER = LoggerFactory.getLogger(VideoController.class);
@@ -33,9 +33,9 @@ public class VideoController {
         return null;
     }
 
-    @GetMapping(value = "/id={id}")
+    @GetMapping(value = "/id={video_id}")
     @ResponseBody
-    public Video getVideoById(@PathVariable("id") Long id){
+    public Video getVideoById(@PathVariable("video_id") Long id){
         try {
             return this.videoService.getVideoById(id);
         } catch (Exception e){
@@ -55,9 +55,9 @@ public class VideoController {
         return null;
     }
 
-    @DeleteMapping(value = "/id={id}")
+    @DeleteMapping(value = "/id={video_id}")
     @ResponseBody
-    public Video deleteVideoById(@PathVariable("id") Long id){
+    public Video deleteVideoById(@PathVariable("video_id") Long id){
         try {
             return this.videoService.deleteVideoById(id);
         } catch (Exception e){

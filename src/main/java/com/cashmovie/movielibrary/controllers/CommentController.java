@@ -9,14 +9,15 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 @RestController
+@RequestMapping("/api/comments")
 public class CommentController {
   private static final Logger LOGGER = LoggerFactory.getLogger(CommentController.class);
   @Autowired
   CommentService commentService;
   
-  @GetMapping (value = "/{video_id}")
+  @GetMapping (value = "/id={video_id}")
   @ResponseBody
-  public List<Comment> getVideoComment(@PathVariable ("video_id") Long video_id) {
+  public List<Comment> getVideoComments(@PathVariable ("video_id") Long video_id) {
     try {
       return commentService.findByVideoId(video_id);
     } catch (Exception e) {
@@ -36,7 +37,7 @@ public class CommentController {
     return null;
   }
   
-  @PostMapping (value = "/{video_id}")
+  @PostMapping (value = "/id={video_id}")
   @ResponseBody
   public Comment postVideoComment(@PathVariable ("video_id") Long video_id, @RequestBody Comment comment) {
     try {
@@ -47,11 +48,21 @@ public class CommentController {
     return null;
   }
   
-  @DeleteMapping (value = "/{video_id}/{comment_id}")
+  @DeleteMapping (value = "/id={video_id}/id={comment_id}")
   @ResponseBody
   public void deleteVideoComment(@PathVariable ("video_id") Long video_id, @PathVariable ("comment_id") Long comment_id) {
     try {
       commentService.delete(video_id, comment_id);
+    } catch (Exception e) {
+      LOGGER.info(e.getMessage(), e);
+    }
+  }
+  
+  @DeleteMapping (value = "/id={video_id}")
+  @ResponseBody
+  public void deleteAllVideoComments(@PathVariable ("video_id") Long video_id) {
+    try {
+      commentService.deleteAllByVideoId(video_id);
     } catch (Exception e) {
       LOGGER.info(e.getMessage(), e);
     }
