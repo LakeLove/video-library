@@ -1,5 +1,7 @@
-package com.cashmovie.movielibrary;
+package com.cashmovie.movielibrary.services;
 
+import com.cashmovie.movielibrary.entities.Comment;
+import com.cashmovie.movielibrary.repositories.CommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
