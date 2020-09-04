@@ -1,4 +1,4 @@
-package com.cashmovie.movielibrary;
+package com.cashmovie.movielibrary.services;
 
 import com.cashmovie.movielibrary.entities.Comment;
 import com.cashmovie.movielibrary.services.CommentService;
@@ -34,7 +34,7 @@ public class CommentServiceTest {
   private CommentService testService;
   
   @Test
-  public void getVideoComments_None() throws Exception {
+  public void findByVideoId_None() throws Exception {
     Long givenVideoID = 1L;
     when(testService.findByVideoId(givenVideoID)).thenReturn(new ArrayList<>());
     String expectedComments = "[]";
@@ -44,7 +44,7 @@ public class CommentServiceTest {
   }
   
   @Test
-  public void getVideoComments_One() throws Exception {
+  public void findByVideoId_One() throws Exception {
     Comment givenComment = new Comment(1L, "this is a test");
     Long givenVideoID = 1L;
     when(testService.findByVideoId(givenVideoID)).thenReturn(new ArrayList<>(Collections.singleton(givenComment)));
@@ -56,7 +56,7 @@ public class CommentServiceTest {
   }
   
   @Test
-  public void getAllComments() throws Exception {
+  public void findAll() throws Exception {
     Comment givenComment1 = new Comment(1L, "this is a test");
     Comment givenComment2 = new Comment(2L, "this is still a test");
     when(testService.findAll()).thenReturn(new ArrayList<>(Arrays.asList(givenComment1, givenComment2)));
@@ -69,7 +69,7 @@ public class CommentServiceTest {
   }
   
   @Test
-  public void postVideoComment() throws Exception {
+  public void save() throws Exception {
     Long givenVideoID = 4L;
     Comment givenComment = new Comment(4L,"this is a test");
     Mockito.when(testService.save(eq(givenVideoID), (Mockito.any()))).thenReturn(givenComment);
@@ -85,7 +85,7 @@ public class CommentServiceTest {
   }
   
   @Test
-  public void deleteVideoComment() throws Exception {
+  public void delete() throws Exception {
     Long givenVideoID = 4L;
     Long givenCommentID = 2L;
     Comment givenComment = new Comment(givenVideoID, givenCommentID, "this is a test");
@@ -97,7 +97,7 @@ public class CommentServiceTest {
   }
   
   @Test
-  public void deleteAllVideoComment() throws Exception {
+  public void deleteAllByVideoId() throws Exception {
     Long givenVideoID = 4L;
     Long givenCommentID = 2L;
     Comment givenComment = new Comment(givenVideoID, givenCommentID, "this is a test");
