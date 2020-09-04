@@ -1,4 +1,4 @@
-package com.cashmovie.movielibrary;
+package com.cashmovie.movielibrary.controllers;
 
 
 import static org.hamcrest.Matchers.containsString;
