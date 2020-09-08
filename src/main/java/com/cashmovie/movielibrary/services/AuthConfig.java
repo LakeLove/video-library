@@ -1,4 +1,4 @@
-package com.cashmovie.movielibrary;
+package com.cashmovie.movielibrary.services;
 
 import com.auth0.AuthenticationController;
 import com.auth0.jwk.JwkProvider;
@@ -30,13 +30,16 @@ public class AuthConfig extends WebSecurityConfigurerAdapter {
     http.csrf().disable();
     http
       .authorizeRequests()
-      .antMatchers("/callback", "/login", "/").permitAll()
-      .anyRequest().authenticated()
-      .and()
+        //.antMatchers("/callback", "/login", "/api/videos/home").permitAll()
+        //.anyRequest().authenticated()
+        .antMatchers("/api/upload").authenticated()
+        .antMatchers("/**").permitAll()
+        .and()
       .formLogin()
-      .loginPage("/login")
+        .loginPage("/login")
       .and()
-      .logout().logoutSuccessHandler((new HttpStatusReturningLogoutSuccessHandler(HttpStatus.OK)));
+      .logout()
+      .logoutSuccessHandler((new HttpStatusReturningLogoutSuccessHandler(HttpStatus.OK))).permitAll();
   }
   
   @Bean
@@ -45,5 +48,13 @@ public class AuthConfig extends WebSecurityConfigurerAdapter {
     return AuthenticationController.newBuilder(domain, clientId, clientSecret)
                                    .withJwkProvider(jwkProvider)
                                    .build();
+  }
+  
+  public String getDomain() {
+    return domain;
+  }
+  
+  public String getClientId() {
+    return clientId;
   }
 }
