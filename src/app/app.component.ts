@@ -18,6 +18,6 @@ export class AppComponent {
   }
 
   getVideos(){
-      this.videoService.getAllVideos().subscribe(videos => this.videos = videos.slice(1, 10));
+      this.videoService.getAllVideos().subscribe(videos => this.videos = videos);
   }
 }
