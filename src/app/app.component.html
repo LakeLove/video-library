@@ -4,7 +4,10 @@
 </div>
 <ul class="videos">
   <li *ngFor="let video of videos">
-    <span class="title">{{video.title}}</span>
-    <span class="author">{{video.author}}</span>
+    <h2 class="title">{{video.title}}</h2>
+    <video controls="controls" width="800" height="600"
+           name="Video Name" src={{video.filePath}}></video>
+    <h3 class="author">{{video.author}}</h3>
+    <p class="description">{{video.description}}</p>
   </li>
 </ul>
