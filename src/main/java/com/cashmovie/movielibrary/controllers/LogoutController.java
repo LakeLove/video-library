@@ -28,6 +28,6 @@ public class LogoutController implements LogoutSuccessHandler {
     String returnTo = ServletUriComponentsBuilder.fromRequest(request).replacePath(null).build().toUriString();
     String logoutUrl = config.getDomain() + "/v2/logout?client_id=" +
                         config.getClientId() + "&returnTo=" + returnTo;
-    response.sendRedirect(logoutUrl);
+    response.sendRedirect(returnTo);
   }
 }

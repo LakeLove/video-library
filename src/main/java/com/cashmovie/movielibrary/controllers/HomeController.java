@@ -19,9 +19,9 @@ public class HomeController {
       String email = jwt.getClaims()
                         .get("email")
                         .asString();
-      return "Welcome, " + email + "! ";
+      return "Welcome, " + email + "!\n\nClick here to <a href='/logout'>logout</a>.";
     } else {
-      return "You are not logged in: go <a href='/login'>login</a>";
+      return "You are not logged in.\n\nClick here to <a href='/login'>login</a>.";
     }
   }
 }
