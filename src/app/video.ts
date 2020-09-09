@@ -1,4 +1,4 @@
-export interface video {
+export interface Video {
     id: number;
     title: string;
     filePath: string;
