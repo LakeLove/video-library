@@ -14,7 +14,7 @@ export class AppComponent {
   constructor(private videoService: VideoService) { }
 
   getVideos(){
-  this.videoService.getVideos()
+  this.videoService.getAllVideos()
         .subscribe(videos => this.videos = videos.slice(1, 10));
   }
 }
