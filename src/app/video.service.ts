@@ -10,7 +10,11 @@ export class VideoService {
 
   constructor(private httpClient: HttpClient) { }
 
+  private videoUrl = 'https://channelcashmoney.herokuapp.com/api/videos/home';
+  //private videoUrl = 'http://localhost:8080/api/videos/home';
+
   getAllVideos(): Observable<Video[]>{
-    return this.httpClient.get<Video[]>('api/videos/home')
+    console.log("Fetching Videos")
+    return this.httpClient.get<Video[]>(this.videoUrl)
   }
 }
