@@ -5,7 +5,6 @@ import com.auth0.jwk.JwkProvider;
 import com.auth0.jwk.JwkProviderBuilder;
 import com.cashmovie.movielibrary.controllers.LogoutController;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -16,17 +15,19 @@ import java.io.UnsupportedEncodingException;
 @EnableWebSecurity
 @Configuration
 public class AuthConfig extends WebSecurityConfigurerAdapter {
-  @Value(value = "${com.auth0.domain}")
+
   private String domain;
-  
-  @Value(value = "${com.auth0.clientId}")
   private String clientId;
-  
-  @Value (value = "${com.auth0.clientSecret}")
   private String clientSecret;
   
   @Autowired
   LogoutController logoutController;
+  
+  public AuthConfig() {
+    domain = System.getenv("AUTH0_DOMAIN");
+    clientId = System.getenv("AUTH0_CLIENT_ID");
+    clientSecret = System.getenv("AUTH0_CLIENT_SECRET");
+  }
   
   @Override
   protected void configure(HttpSecurity http) throws Exception {
