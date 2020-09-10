@@ -1,4 +1,4 @@
-package com.cashmovie.movielibrary;
+package com.cashmovie.movielibrary.services;
 
 import com.cashmovie.movielibrary.entities.Video;
 import com.cashmovie.movielibrary.services.VideoService;

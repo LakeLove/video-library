@@ -73,11 +73,15 @@
 			<artifactId>postgresql</artifactId>
 			<version>42.2.2</version>
 		</dependency>
-
 		<dependency>
 			<groupId>com.amazonaws</groupId>
 			<artifactId>aws-java-sdk</artifactId>
 			<version>1.11.133</version>
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-api</artifactId>
+			<version>5.7.0-M1</version>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 
