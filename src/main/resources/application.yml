@@ -1,3 +1,9 @@
 amazonProperties:
   endpointUrl: https://s3.us-east-2.amazonaws.com
   bucketName: cashmoney-video-library
+
+spring:
+  servlet:
+    multipart:
+      max-file-size = 15MB
+      max-request-size = 15MB
