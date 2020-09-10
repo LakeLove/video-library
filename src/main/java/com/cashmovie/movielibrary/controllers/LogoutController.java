@@ -2,7 +2,6 @@ package com.cashmovie.movielibrary.controllers;
 
 import com.cashmovie.movielibrary.services.AuthConfig;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.stereotype.Controller;
@@ -15,9 +14,6 @@ import java.io.IOException;
 public class LogoutController implements LogoutSuccessHandler {
   @Autowired
   private AuthConfig config;
-  
-  @Value(value = "${com.auth0.domain}")
-  private String domain;
 
   @Override
   public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response,

@@ -5,7 +5,6 @@ import com.auth0.jwk.JwkProvider;
 import com.auth0.jwk.JwkProviderBuilder;
 import com.cashmovie.movielibrary.controllers.LogoutController;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -16,16 +15,7 @@ import java.io.UnsupportedEncodingException;
 @EnableWebSecurity
 @Configuration
 public class AuthConfig extends WebSecurityConfigurerAdapter {
-  
-  @Value(value = "${com.auth0.domain}")
-  private String domain;
-  
-  @Value(value = "${com.auth0.clientId}")
-  private String clientId;
-  
-  @Value (value = "${com.auth0.clientSecret}")
-  private String clientSecret;
-  
+
   @Autowired
   LogoutController logoutController;
   
@@ -48,17 +38,21 @@ public class AuthConfig extends WebSecurityConfigurerAdapter {
   
   @Bean
   public AuthenticationController authenticationController() throws UnsupportedEncodingException {
-    JwkProvider jwkProvider = new JwkProviderBuilder(domain).build();
-    return AuthenticationController.newBuilder(domain, clientId, clientSecret)
+    JwkProvider jwkProvider = new JwkProviderBuilder(getDomain()).build();
+    return AuthenticationController.newBuilder(getDomain(), getClientId(), getClientSecret())
                                    .withJwkProvider(jwkProvider)
                                    .build();
   }
   
   public String getDomain() {
-    return domain;
+    return System.getenv("AUTH0_DOMAIN");
   }
   
   public String getClientId() {
-    return clientId;
+    return System.getenv("AUTH0_CLIENT_ID");
+  }
+  
+  public String getClientSecret() {
+    return System.getenv("AUTH0_CLIENT_SECRET");
   }
 }
