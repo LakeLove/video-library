@@ -24,9 +24,6 @@ public class VideoService {
 
     public Video postNewVideo(Video v) {
         // Currently mapped to mp4
-        this.videoRepository.save(v);
-
-        v.setFilePath("/videos/" + v.getId() + ".mp4");
         return this.videoRepository.save(v);
     }
 
