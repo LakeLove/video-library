@@ -9,12 +9,13 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 @RestController
+@CrossOrigin
 @RequestMapping("/api/comments")
 public class CommentController {
   private static final Logger LOGGER = LoggerFactory.getLogger(CommentController.class);
   @Autowired
   CommentService commentService;
-  
+
   @GetMapping (value = "/id={video_id}")
   @ResponseBody
   public List<Comment> getVideoComments(@PathVariable ("video_id") Long video_id) {
@@ -25,7 +26,7 @@ public class CommentController {
     }
     return null;
   }
-  
+
   @GetMapping (value = "/all")
   @ResponseBody
   public List<Comment> getAllComments() {
@@ -36,7 +37,7 @@ public class CommentController {
     }
     return null;
   }
-  
+
   @PostMapping (value = "/id={video_id}")
   @ResponseBody
   public Comment postVideoComment(@PathVariable ("video_id") Long video_id, @RequestBody Comment comment) {
@@ -47,7 +48,7 @@ public class CommentController {
     }
     return null;
   }
-  
+
   @DeleteMapping (value = "/id={video_id}/id={comment_id}")
   @ResponseBody
   public void deleteVideoComment(@PathVariable ("video_id") Long video_id, @PathVariable ("comment_id") Long comment_id) {
@@ -57,7 +58,7 @@ public class CommentController {
       LOGGER.info(e.getMessage(), e);
     }
   }
-  
+
   @DeleteMapping (value = "/id={video_id}")
   @ResponseBody
   public void deleteAllVideoComments(@PathVariable ("video_id") Long video_id) {
