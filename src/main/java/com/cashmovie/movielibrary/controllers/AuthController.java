@@ -20,14 +20,14 @@ import java.io.IOException;
 public class AuthController {
   @Autowired
   private AuthConfig config;
-  
+
   @Autowired
   private AuthenticationController authenticationController;
-  
+
   String getBaseUrl(HttpServletRequest req) {
     return req.getScheme() + "://" + req.getServerName() + ":" + req.getServerPort() + req.getContextPath();
   }
-  
+
   @GetMapping (value = "/login")
   protected void login(HttpServletRequest request, HttpServletResponse response) throws IOException {
     // https://stackoverflow.com/a/57800880
@@ -37,19 +37,19 @@ public class AuthController {
                                                   .build();
     response.sendRedirect(authorizeUrl);
   }
-  
+
   @GetMapping(value="/callback")
   public void callback(HttpServletRequest request, HttpServletResponse response) throws IdentityVerificationException, IOException {
     Tokens tokens = authenticationController.handle(request, response);
-    
+
     DecodedJWT jwt = JWT.decode((tokens).getIdToken());
     TestingAuthenticationToken authToken2 = new TestingAuthenticationToken(jwt.getSubject(),
       jwt.getToken());
     authToken2.setAuthenticated(true);
-    
+
     SecurityContextHolder.getContext().setAuthentication(authToken2);
-    
-    response.sendRedirect("/");
+
+    response.sendRedirect("https://cashmovie.herokuapp.com/");
   }
-  
+
 }
