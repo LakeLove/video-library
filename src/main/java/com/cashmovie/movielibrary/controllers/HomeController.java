@@ -35,9 +35,9 @@ public class HomeController {
     if (token != null ) {
       DecodedJWT jwt = JWT.decode(token.getCredentials().toString());
       String user_id = jwt.getClaims().get("sub").asString();
-      return "Welcome, "+getUsername(user_id)+"!\n\nClick here to <a href='/logout'>logout</a>.";
+      return new ObjectMapper().writeValueAsString("Welcome, "+getUsername(user_id)+"!\n\nClick here to <a href='/logout'>logout</a>.");
     } else {
-      return "You are not logged in.\n\nClick here to <a href='/login'>login</a>.";
+      return new ObjectMapper().writeValueAsString("You are not logged in.\n\nClick here to <a href='/login'>login</a>.");
     }
   }
 
