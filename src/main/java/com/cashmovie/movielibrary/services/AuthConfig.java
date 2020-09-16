@@ -18,7 +18,7 @@ public class AuthConfig extends WebSecurityConfigurerAdapter {
 
   @Autowired
   LogoutController logoutController;
-  
+
   @Override
   protected void configure(HttpSecurity http) throws Exception {
     http.csrf().disable();
@@ -26,7 +26,7 @@ public class AuthConfig extends WebSecurityConfigurerAdapter {
       .authorizeRequests()
       //.antMatchers("/callback", "/login", "/api/videos/home").permitAll()
       //.anyRequest().authenticated()
-      .antMatchers("/api/videos/upload").authenticated()
+      //.antMatchers("/api/videos/upload").authenticated()
       .antMatchers("/**").permitAll()
       .and()
       .formLogin()
@@ -35,7 +35,7 @@ public class AuthConfig extends WebSecurityConfigurerAdapter {
       .logout()
       .logoutSuccessHandler(logoutController).permitAll();
   }
-  
+
   @Bean
   public AuthenticationController authenticationController() throws UnsupportedEncodingException {
     JwkProvider jwkProvider = new JwkProviderBuilder(getDomain()).build();
@@ -43,15 +43,15 @@ public class AuthConfig extends WebSecurityConfigurerAdapter {
                                    .withJwkProvider(jwkProvider)
                                    .build();
   }
-  
+
   public String getDomain() {
     return System.getenv("AUTH0_DOMAIN");
   }
-  
+
   public String getClientId() {
     return System.getenv("AUTH0_CLIENT_ID");
   }
-  
+
   public String getClientSecret() {
     return System.getenv("AUTH0_CLIENT_SECRET");
   }
