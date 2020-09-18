@@ -55,4 +55,8 @@ public class AuthConfig extends WebSecurityConfigurerAdapter {
   public String getClientSecret() {
     return System.getenv("AUTH0_CLIENT_SECRET");
   }
+
+  public String getApiToken() {
+    return System.getenv("AUTH0_API_TOKEN");
+  }
 }
