@@ -86,7 +86,6 @@
 			<version>5.7.0-M1</version>
 			<scope>test</scope>
 		</dependency>
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
@@ -179,8 +178,13 @@
       <version>1.4.9</version>
     </dependency>
 
-
-		<dependency>
+    <dependency>
+      <groupId>io.findify</groupId>
+      <artifactId>s3mock_2.13</artifactId>
+      <version>0.2.6</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>

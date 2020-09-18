@@ -26,7 +26,7 @@ public class AuthConfig extends WebSecurityConfigurerAdapter {
       .authorizeRequests()
       //.antMatchers("/callback", "/login", "/api/videos/home").permitAll()
       //.anyRequest().authenticated()
-      .antMatchers("/api/videos/upload").authenticated()
+      //.antMatchers("/api/videos/upload").authenticated()
       .antMatchers("/**").permitAll()
       .and()
       .formLogin()
