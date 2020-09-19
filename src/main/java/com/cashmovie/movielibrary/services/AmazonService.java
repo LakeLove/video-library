@@ -27,8 +27,10 @@ public class AmazonService {
     private String endpointUrl;
     @Value("${amazonProperties.bucketName}")
     private String bucketName;
-    private String accessKey = System.getenv("AWS_ACCESS_KEY_ID");
-    private String secretKey = System.getenv("AWS_SECRET_ACCESS_KEY");
+    //private String accessKey = System.getenv("AWS_ACCESS_KEY_ID");
+    //private String secretKey = System.getenv("AWS_SECRET_ACCESS_KEY");
+    private String accessKey = " ";
+    private String secretKey = " ";
 
 
     @PostConstruct
