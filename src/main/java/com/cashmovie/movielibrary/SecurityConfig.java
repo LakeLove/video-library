@@ -33,7 +33,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   @Override
   protected void configure(HttpSecurity http) throws Exception {
     http.cors().and().csrf().disable()
-      .authorizeRequests().antMatchers("/authenticate", "/signup")
+      .authorizeRequests()
+      .antMatchers("/authenticate", "/signup", "/api/videos/home", "/api/videos/id=[0-9]+", "/api/comments/id=[0-9]+")
       .permitAll().anyRequest().authenticated().and().sessionManagement()
       .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
