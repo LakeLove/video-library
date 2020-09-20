@@ -1,8 +1,10 @@
 package com.cashmovie.movielibrary.controllers;
 
+import com.amazonaws.services.cognitoidp.model.UsernameExistsException;
 import com.cashmovie.movielibrary.JwtUtil;
 import com.cashmovie.movielibrary.entities.AuthRequest;
 import com.cashmovie.movielibrary.entities.AuthResponse;
+import com.cashmovie.movielibrary.entities.UserCred;
 import com.cashmovie.movielibrary.services.MyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -43,6 +45,16 @@ public class SecurityController {
     final String jwt = jwtTokenUtil.generateToken(userDetails);
 
     return ResponseEntity.ok(new AuthResponse(jwt));
+  }
+
+  @RequestMapping(value = "/signup", method = RequestMethod.POST)
+  public ResponseEntity<?> createAccount(@RequestBody UserCred credentials){
+    try{
+      return ResponseEntity.ok(this.userDetailsService.createUser(credentials));
+    } catch (UsernameExistsException e){
+      return ResponseEntity.badRequest().build();
+    }
+
   }
 
 }
