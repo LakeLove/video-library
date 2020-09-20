@@ -29,7 +29,6 @@ public class SecurityController {
 
   @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
   public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthRequest authRequest) throws Exception {
-
     try {
       authenticationManager.authenticate(
         new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword())
