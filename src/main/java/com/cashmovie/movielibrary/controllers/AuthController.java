@@ -16,17 +16,13 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.TestingAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-@Controller
+@RestController
 @CrossOrigin
 public class AuthController {
   @Autowired
@@ -35,7 +31,7 @@ public class AuthController {
   @Autowired
   private AuthenticationController authenticationController;
 
-  private static final ObjectMapper objectMapper = new ObjectMapper();
+  private ObjectMapper objectMapper;
 
   @GetMapping (value = "/login")
   protected void login(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -69,8 +65,8 @@ public class AuthController {
                                                    "\"grant_type\":\"client_credentials\"}")
                                            .asString();
     String responseBody = response.getBody();
+    objectMapper = new ObjectMapper();
     objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-    System.out.println(objectMapper.readValue(responseBody, Bearer.class).getAccess_token());
     return objectMapper.readValue(responseBody, Bearer.class).getAccess_token();
   }
 
@@ -82,6 +78,7 @@ public class AuthController {
                                            .header("authorization", "Bearer "+this.getBearerToken())
                                            .asString();
     String responseBody = response.getBody();
+    objectMapper = new ObjectMapper();
     objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
     String username = objectMapper.readValue(responseBody, User.class).getUsername();
     return objectMapper.writeValueAsString(username);
