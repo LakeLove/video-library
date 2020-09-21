@@ -15,6 +15,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.io.IOException;
@@ -41,7 +42,9 @@ public class HomeController {
     }
   }
 
-  protected String getUsername(String user_id) throws IOException, UnirestException {
+  @GetMapping (value = "/api/users/id={user_id}")
+  @ResponseBody
+  protected String getUsername(@PathVariable ("user_id") String user_id) throws IOException, UnirestException {
     String url = "https://channel-cashmoney.us.auth0.com/api/v2/users/"+user_id+"?fields=username&include_fields=true";
     HttpResponse<String> response = Unirest.get(url)
                                            .header("authorization", "Bearer "+config.getApiToken())
