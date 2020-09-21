@@ -3,11 +3,7 @@ package com.cashmovie.movielibrary.controllers;
 import com.auth0.AuthenticationController;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.cashmovie.movielibrary.entities.User;
-import com.cashmovie.movielibrary.services.AuthConfig;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mashape.unirest.http.HttpResponse;
-import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.TestingAuthenticationToken;
@@ -21,9 +17,9 @@ import java.io.IOException;
 @Controller
 @CrossOrigin
 public class HomeController {
-  private static ObjectMapper objectMapper = new ObjectMapper();
+  private static final ObjectMapper objectMapper = new ObjectMapper();
   @Autowired
-  private AuthConfig config;
+  private AuthController authController;
 
   @Autowired
   private AuthenticationController authenticationController;
@@ -35,18 +31,9 @@ public class HomeController {
     if (token != null ) {
       DecodedJWT jwt = JWT.decode(token.getCredentials().toString());
       String user_id = jwt.getClaims().get("sub").asString();
-      return new ObjectMapper().writeValueAsString("Logged in as: "+getUsername(user_id));
+      return objectMapper.writeValueAsString("Logged in as: "+authController.getUsername(user_id));
     } else {
-      return new ObjectMapper().writeValueAsString("You are not logged in.");
+      return objectMapper.writeValueAsString("You are not logged in.");
     }
-  }
-
-  protected String getUsername(String user_id) throws IOException, UnirestException {
-    String url = "https://channel-cashmoney.us.auth0.com/api/v2/users/"+user_id+"?fields=username&include_fields=true";
-    HttpResponse<String> response = Unirest.get(url)
-                                           .header("authorization", "Bearer "+config.getApiToken())
-                                           .asString();
-    String responseBody = response.getBody();
-    return new ObjectMapper().readValue(responseBody, User.class).getUsername();
   }
 }
