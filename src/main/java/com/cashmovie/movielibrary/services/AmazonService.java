@@ -7,6 +7,7 @@ import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.cashmovie.movielibrary.exceptions.ImproperFileTypeException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -49,18 +50,22 @@ public class AmazonService {
         return new Date().getTime() + "-" + multiPart.getOriginalFilename().replace(" ", "_");
     }
 
-    public String uploadFile(MultipartFile multipartFile) {
+    public String uploadFile(MultipartFile multipartFile) throws ImproperFileTypeException {
         String fileUrl = "";
-        try {
+        if(checkFileType(multipartFile)) {
+          try {
             File file = convertMultiPartToFile(multipartFile);
             String fileName = generateFileName(multipartFile);
             fileUrl = endpointUrl + "/" + bucketName + "/" + fileName;
             uploadFileTos3bucket(fileName, file);
             file.delete();
-        } catch (Exception e) {
+          } catch (Exception e) {
             e.printStackTrace();
+          }
+          return fileUrl;
+        }else{
+          throw new ImproperFileTypeException();
         }
-        return fileUrl;
     }
 
     private void uploadFileTos3bucket(String fileName, File file) {
@@ -73,4 +78,13 @@ public class AmazonService {
         s3client.deleteObject(new DeleteObjectRequest(bucketName + "/", fileName));
         return "Successfully deleted";
     }
+
+  private boolean checkFileType(MultipartFile file){
+    // Determine if the extension is part of the acceptable list
+    String fileExtentions = ".mov,.MOV,.mp4,.webm";
+    String fileName = file.getOriginalFilename();
+    int lastIndex = fileName.lastIndexOf('.');
+    String substring = fileName.substring(lastIndex, fileName.length());
+    return fileExtentions.contains(substring);
+  }
 }
