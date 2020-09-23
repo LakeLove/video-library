@@ -1,7 +1,6 @@
 package com.cashmovie.movielibrary.services;
 
 import com.cashmovie.movielibrary.entities.Video;
-import com.cashmovie.movielibrary.services.VideoService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -17,7 +16,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -100,4 +98,19 @@ public class VideoServiceTest {
                 .andExpect(status().isOk());
         verify(testService, times(1)).deleteVideoById(givenVideoID);
     }
+
+  @Test
+  public void getVideosByAuthor() throws Exception {
+    Video testVideo1 = new Video("Video1", "/videos/1.mp4", "Frank", "Test");
+    Video testVideo2 = new Video("Video2", "/videos/2.mp4", "Frank", "Test");
+    String givenAuthor = "Frank";
+    when(testService.getVideosByAuthor(givenAuthor)).thenReturn(new ArrayList<>(Arrays.asList(testVideo1, testVideo2)));
+    String expectedVideos = "[{\"id\":null,\"title\":\"Video1\",\"filePath\":\"/videos/1.mp4\"," +
+                             "\"author\":\"Frank\",\"date\":null,\"description\":\"Test\"}," +
+                             "{\"id\":null,\"title\":\"Video2\",\"filePath\":\"/videos/2.mp4\"," +
+                             "\"author\":\"Frank\",\"date\":null,\"description\":\"Test\"}]";
+    this.mvc.perform(get("/api/videos/user="+givenAuthor))
+            .andExpect(status().isOk())
+            .andExpect(content().string(expectedVideos));
+  }
 }

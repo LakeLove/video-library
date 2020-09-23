@@ -77,8 +77,24 @@ public class VideoControllerTest {
                 .andExpect(status().isOk());
     }
 
+  @Test
+  public void testGetVideoByAuthor() throws Exception {
+    Video testVideo1 = new Video("Video1", "/videos/1.mp4", "Frank", "Test");
+    Video testVideo2 = new Video("Video2", "/videos/2.mp4", "Frank", "Test");
+    List<Video> testList = Arrays.asList(testVideo1,testVideo2);
+    String expectedVideos = "[" +
+                             "{\"id\":null,\"title\":\"Video1\",\"filePath\":\"/videos/1.mp4\"," +
+                             "\"author\":\"Frank\",\"date\":null,\"description\":\"Test\"}," +
+                             "{\"id\":null,\"title\":\"Video2\",\"filePath\":\"/videos/2.mp4\"," +
+                             "\"author\":\"Frank\",\"date\":null,\"description\":\"Test\"}" +
+                             "]";
+    when(videoService.getVideosByAuthor("Frank")).thenReturn(testList);
+    this.mockMvc.perform(get("/api/videos/user=Frank").contentType(MediaType.APPLICATION_JSON))
+                .andExpect(content().json(expectedVideos))
+                .andExpect(status().isOk());
+  }
 
-    // Unused for now
+  // Unused for now
     /*
     private String buildListJson(List<Video> list) throws JsonProcessingException {
         StringBuilder sb = new StringBuilder();

@@ -45,6 +45,17 @@ public class VideoController {
         return null;
     }
 
+    @GetMapping(value = "/user={username}")
+    @ResponseBody
+    public List<Video> getVideosByAuthor(@PathVariable("username") String author) {
+      try {
+        return this.videoService.getVideosByAuthor(author);
+      } catch (Exception e) {
+        LOGGER.info(e.getMessage(), e);
+      }
+      return null;
+    }
+
     @PostMapping(value = "/upload")
     @ResponseBody
     public Video postNewVideo(@RequestBody Video v){
