@@ -34,6 +34,17 @@ public class VideoController {
         return null;
     }
 
+    @GetMapping(value = "/search/{term}")
+    @ResponseBody
+    public List<Video> searchByTerm(@PathVariable("term") String term){
+      try {
+        return this.videoService.search(term);
+      } catch (Exception e){
+        LOGGER.info(e.getMessage(), e);
+      }
+      return null;
+    }
+
     @GetMapping(value = "/id={video_id}")
     @ResponseBody
     public Video getVideoById(@PathVariable("video_id") Long id){

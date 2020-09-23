@@ -1,7 +1,9 @@
 package com.cashmovie.movielibrary.services;
 
 import com.cashmovie.movielibrary.entities.Video;
+import com.cashmovie.movielibrary.repositories.VideoRepository;
 import com.cashmovie.movielibrary.services.VideoService;
+import org.assertj.core.util.Lists;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -16,7 +18,9 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -33,6 +37,9 @@ public class VideoServiceTest {
 
     @MockBean
     private VideoService testService;
+
+    @MockBean
+    private VideoRepository testRepo;
 
     @Test
     public void getVideo_None() throws Exception {
@@ -99,5 +106,18 @@ public class VideoServiceTest {
                 .delete("/api/videos/id=" + givenVideoID))
                 .andExpect(status().isOk());
         verify(testService, times(1)).deleteVideoById(givenVideoID);
+    }
+
+    @Test
+    public void testSearch() throws Exception {
+      Video video1 = new Video("Title", "", "Author", "");
+      Video video2 = new Video("asdf", "", "qwert", "");
+      List<Video> inputList = Lists.list(video1, video2);
+
+      List<Video> expected = Lists.list(video1);
+
+      List<Video> actual = this.testService.filterSearch("title", inputList);
+
+      assertEquals(expected, actual);
     }
 }
