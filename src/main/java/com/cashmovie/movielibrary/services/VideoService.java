@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class VideoService {
@@ -39,11 +40,29 @@ public class VideoService {
 
     public List<Video> getVideosByAuthor(String author) {
       List<Video> byAuthor = new ArrayList<>();
-      for (Video video : this.videoRepository.findAll()) {
-        if (video.getAuthor().equals(author)) {
+      for(Video video : this.videoRepository.findAll()) {
+        if(video.getAuthor()
+                .equals(author)) {
           byAuthor.add(video);
         }
       }
       return byAuthor;
+    }
+
+    public List<Video> search(String term){
+      return this.filterSearch(term, this.videoRepository.findAll());
+    }
+
+    public List<Video> filterSearch(String term, List<Video> videos) {
+      return videos.stream().filter(video -> contains(video, term)).collect(Collectors.toList());
+    }
+
+    private boolean contains(Video video, String term){
+      // Clean up the input and the comparison
+      String cleanTerm = term.replaceAll("[^a-zA-Z0-9]", "").toLowerCase();
+      String cleanCompare = (video.getTitle() + video.getAuthor())
+        .replaceAll("[^a-zA-Z0-9]", "").toLowerCase();
+
+      return cleanCompare.contains(cleanTerm);
     }
 }
