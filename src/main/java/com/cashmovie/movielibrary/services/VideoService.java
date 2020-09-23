@@ -5,7 +5,7 @@ import com.cashmovie.movielibrary.repositories.VideoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -36,6 +36,17 @@ public class VideoService {
         Video v = this.getVideoById(id);
         this.videoRepository.delete(v);
         return v;
+    }
+
+    public List<Video> getVideosByAuthor(String author) {
+      List<Video> byAuthor = new ArrayList<>();
+      for(Video video : this.videoRepository.findAll()) {
+        if(video.getAuthor()
+                .equals(author)) {
+          byAuthor.add(video);
+        }
+      }
+      return byAuthor;
     }
 
     public List<Video> search(String term){
